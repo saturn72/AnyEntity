@@ -5,6 +5,8 @@ using System.Net.Http;
 using sample;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Shouldly;
+using System.Text;
 
 namespace samples.tests
 {
@@ -26,7 +28,7 @@ namespace samples.tests
         [Theory]
         [InlineData(HttpMethods.Post, "test")]
         [InlineData(HttpMethods.Get, "test/123")]
-        [InlineData(HttpMethods.Get, "test/filter/filterData")]
+        [InlineData(HttpMethods.Get, "test/filter?filterData")]
         [InlineData(HttpMethods.Put, "test/123")]
         [InlineData(HttpMethods.Patch, "test/123")]
         [InlineData(HttpMethods.Delete, "test/123")]
@@ -39,20 +41,23 @@ namespace samples.tests
             };
             var res = await SubmitHttpRequest(httpMethod, uri, content);
             res.EnsureSuccessStatusCode();
+            var msg = await res.Content.ReadAsStringAsync();
+            msg.ShouldContain(httpMethod);
         }
 
         private Task<HttpResponseMessage> SubmitHttpRequest(string httpMethod, string uri, object content)
         {
+            var sc = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
             switch (httpMethod)
             {
                 case HttpMethods.Post:
-                    return _httpClient.PostAsJsonAsync(uri, content);
+                    return _httpClient.PostAsync(uri, sc);
                 case HttpMethods.Get:
                     return _httpClient.GetAsync(uri);
                 case HttpMethods.Put:
-                    return _httpClient.PutAsJsonAsync(uri, content);
+                    return _httpClient.PutAsync(uri, sc);
                 case HttpMethods.Patch:
-                    return _httpClient.PatchAsync(uri, new StringContent(JsonConvert.SerializeObject(content)));
+                    return _httpClient.PatchAsync(uri, sc);
                 case HttpMethods.Delete:
                     return _httpClient.DeleteAsync(uri);
                 default:
