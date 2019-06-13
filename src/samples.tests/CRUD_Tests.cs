@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Shouldly;
 using System.Text;
+using System;
 
 namespace samples.tests
 {
@@ -18,26 +19,29 @@ namespace samples.tests
         public const string Patch = "patch";
         public const string Delete = "delete";
     }
-    public class RouterTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class CRUD_Tests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
-        public RouterTests(WebApplicationFactory<Startup> factory)
+        private readonly string _timeStamp;
+
+        public CRUD_Tests(WebApplicationFactory<Startup> factory)
         {
             _httpClient = factory.CreateClient();
+            _timeStamp = DateTime.UtcNow.ToString("yyyy-mm-dd-hh:MM:ss.fff");
         }
         [Theory]
-        [InlineData(HttpMethods.Post, "test")]
-        [InlineData(HttpMethods.Get, "test/123")]
-        [InlineData(HttpMethods.Get, "test/filter?filterData")]
-        [InlineData(HttpMethods.Put, "test/123")]
-        [InlineData(HttpMethods.Patch, "test/123")]
-        [InlineData(HttpMethods.Delete, "test/123")]
+        [InlineData(HttpMethods.Post, "testclass1")]
+        [InlineData(HttpMethods.Get, "testclass1/123")]
+        [InlineData(HttpMethods.Get, "testclass1/filter?filterData")]
+        [InlineData(HttpMethods.Put, "testclass1/123")]
+        [InlineData(HttpMethods.Patch, "testclass1/123")]
+        [InlineData(HttpMethods.Delete, "testclass1/123")]
         public async Task RedirectToControllerTests(string httpMethod, string uri)
         {
             var content = new
             {
-                Name = "test",
-                Id = "123"
+                NumericValue = 1,
+                StringValue = "test_" + _timeStamp,
             };
             var res = await SubmitHttpRequest(httpMethod, uri, content);
             res.EnsureSuccessStatusCode();
