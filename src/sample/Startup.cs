@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Sample.Models;
 
 namespace sample
@@ -31,7 +25,9 @@ namespace sample
                 typeof(TestClass1),
                 typeof(TestClass2),
             };
-            services.ConfigureAnyEntity(entitiesToRegister);
+
+            var connection = "Data Source=sample_app.db";
+            services.ConfigureAnyEntity(entitiesToRegister, options => options.UseSqlite(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,9 +2,9 @@ using AnyEntity;
 
 namespace Sample.Models
 {
-    public class TestClass1 : AnyEntityModelBase<object>
+    public class TestClass1 : AnyEntityModelBase<string>
     {
-        public object Id { get; set; }
+        public string Id { get; set; }
         public int NumericValue { get; set; }
         public string StringValue { get; set; }
     }

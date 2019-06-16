@@ -44,6 +44,8 @@ namespace samples.tests
                 StringValue = "test_" + _timeStamp,
             };
             var res = await SubmitHttpRequest(httpMethod, uri, content);
+            var c = await res.Content.ReadAsStringAsync();
+            await System.IO.File.WriteAllTextAsync(@"C:\Users\roi.shabtai\Desktop\1.html", c);
             res.EnsureSuccessStatusCode();
             var msg = await res.Content.ReadAsStringAsync();
             msg.ShouldContain(httpMethod);

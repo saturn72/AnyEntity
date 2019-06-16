@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -16,16 +17,14 @@ namespace AnyEntity
         public async Task Invoke(HttpContext context, EntityTypeFactory entityTypeFactory, WorkContext workContext)
         {
             var path = context.Request.Path;
-            if (!path.HasValue)
+            var urlParts = path.HasValue ? path.Value.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries) : null;
+            if (urlParts == null || urlParts.Length == 0)
             {
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 return;
             }
-            path = path.Value.TrimStart('/');
 
-            var u = path.ToUriComponent();
-            // var entityName = route.Values["entityName"].ToString();
-            // workContext.EntityType = entityTypeFactory[entityName];
+            workContext.EntityType = entityTypeFactory[urlParts[0]];
             await _next(context);
         }
     }
