@@ -2,7 +2,7 @@ using AnyEntity;
 
 namespace Sample.Models
 {
-    public class TestClass2 : AnyEntityModelBase<string>
+    public class TestClass2 : IAnyEntityModelBase<string>
     {
         public string Id { get; set; }
         public int NumericValue { get; set; }

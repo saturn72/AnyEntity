@@ -1,61 +1,56 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace AnyEntity.Controllers
 {
     [Route("{entityName}")]
     public class AnyEntityController : ControllerBase
     {
-        private readonly IQueryable<object> _queryable;
-        public AnyEntityController(IQueryable<object> queryable)
+        private readonly AnyEntityDbContext _dbContext;
+        private readonly WorkContext _workContext;
+
+        public AnyEntityController(AnyEntityDbContext dbContext, WorkContext workContext)
         {
-            _queryable = queryable;
+            _dbContext = dbContext;
+            _workContext = workContext;
         }
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]object entity)
+        public async Task<IActionResult> Post([FromBody]IEnumerable<object> entities)
         {
-            // await _dbContext.AddAsync(entity);
-            var r = Request.QueryString;
-            return await Task.FromResult(new OkObjectResult("post: " + entity.ToString()));
+            var toCreate = entities.Select(x => (x as JObject).ToObject(_workContext.EntityType)).ToArray();
+            await _dbContext.AddRangeAsync(toCreate);
+            return new OkObjectResult(toCreate);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var g = _queryable.Where(c => ExtractById(id, c));
-
-            return await Task.FromResult(new OkObjectResult("get by id: " + id));
+            var entities = await _dbContext.FindAsync(_workContext.EntityType, id);
+            return new OkObjectResult(entities);
         }
         [HttpGet("filter/{filter}")]
         public async Task<IActionResult> GetAll(string filter)
         {
-            return await Task.FromResult(new OkObjectResult("get and filter: " + filter));
+            var entities = _dbContext.Set(_workContext.EntityType);
+            return new OkObjectResult(entities);
         }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, [FromBody]object entity)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]IEnumerable<object> entities)
         {
-            var g = _queryable.Where(c => ExtractById(id, c));
-            return await Task.FromResult(new OkObjectResult("put by id: " + id));
+            await Task.Run(() => _dbContext.UpdateRange(entities));
+            return new OkObjectResult(entities);
         }
-
-        private bool ExtractById(string id, object c)
+        [HttpPatch]
+        public async Task<IActionResult> Patch([FromBody]object entity)
         {
-            return id.Length % 2 == 0;
+            throw new System.NotImplementedException();
         }
-
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> Patch(string id, [FromBody]object entity)
+        [HttpDelete("{ids}")]
+        public async Task<IActionResult> Delete(IEnumerable<object> ids)
         {
-            var g = _queryable.Where(c => ExtractById(id, c));
-
-            return await Task.FromResult(new OkObjectResult("patch: " + entity.ToString()));
-        }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
-        {
-            var g = _queryable.Where(c => ExtractById(id, c));
-
-            return await Task.FromResult(new OkObjectResult("delete by id: " + id));
+            throw new System.NotImplementedException();
         }
     }
 }

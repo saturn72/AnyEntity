@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using AnyEntity;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +28,18 @@ namespace sample
                 typeof(TestClass2),
             };
 
+            Action<ModelBuilder> onModelCreating = builder =>
+            {
+                foreach (var e in entitiesToRegister)
+                {
+                    builder.Entity(e)
+                    .ToTable(e.Name)
+                    .HasIndex(nameof(IAnyEntityModelBase<object>.Id));
+                }
+            };
+
             var connection = "Data Source=sample_app.db";
-            services.ConfigureAnyEntity(entitiesToRegister, options => options.UseSqlite(connection));
+            services.ConfigureAnyEntity(entitiesToRegister, options => options.UseSqlite(connection), onModelCreating);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,6 @@
 namespace AnyEntity
 {
-    public interface AnyEntityModelBase<TId>
+    public interface IAnyEntityModelBase<TId>
     {
         TId Id { get; set; }
     }
