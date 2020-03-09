@@ -1,3 +1,5 @@
-# AnyEntity
+# Messangee
 
-AnyEntity is asp.net core abstraction on top of EntityFramework that provide Strict RESTful interface to communicate with database.
+`messangee` is managed messaging solution for C#.
+
+Add documentation - TBD
