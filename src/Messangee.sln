@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messangee.API", "Messangee.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messangee.API.Tests", "Messangee.API.Tests\Messangee.API.Tests.csproj", "{69426CD8-63DD-4CC2-BE94-0D8B132B405D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{CDAD75D1-5253-4095-B3F6-CFD73D3C5C11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messangee.Sample.Consumer", "Sample\Messangee.Sample.Consumer\Messangee.Sample.Consumer.csproj", "{B598663D-A74C-4F60-B9DA-626B2496B429}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messangee.Sample.Producer", "Sample\Messangee.Sample.Producer\Messangee.Sample.Producer.csproj", "{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +50,33 @@ Global
 		{69426CD8-63DD-4CC2-BE94-0D8B132B405D}.Release|x64.Build.0 = Release|Any CPU
 		{69426CD8-63DD-4CC2-BE94-0D8B132B405D}.Release|x86.ActiveCfg = Release|Any CPU
 		{69426CD8-63DD-4CC2-BE94-0D8B132B405D}.Release|x86.Build.0 = Release|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Debug|x64.Build.0 = Debug|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Debug|x86.Build.0 = Debug|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Release|x64.ActiveCfg = Release|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Release|x64.Build.0 = Release|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Release|x86.ActiveCfg = Release|Any CPU
+		{B598663D-A74C-4F60-B9DA-626B2496B429}.Release|x86.Build.0 = Release|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Debug|x64.Build.0 = Debug|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Debug|x86.Build.0 = Debug|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|x64.ActiveCfg = Release|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|x64.Build.0 = Release|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|x86.ActiveCfg = Release|Any CPU
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B598663D-A74C-4F60-B9DA-626B2496B429} = {CDAD75D1-5253-4095-B3F6-CFD73D3C5C11}
+		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6} = {CDAD75D1-5253-4095-B3F6-CFD73D3C5C11}
 	EndGlobalSection
 EndGlobal
