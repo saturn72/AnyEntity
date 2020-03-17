@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/sample/sample.csproj"
+                "${workspaceFolder}/sample/Messangee.Sample.Consumer/Messangee.Sample.Consumer.csproj"
             ],
             "problemMatcher": "$tsc"
         },

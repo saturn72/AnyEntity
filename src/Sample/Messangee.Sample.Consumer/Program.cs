@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Confluent.Kafka;
 
 namespace Messangee.Sample.Consumer
@@ -10,19 +11,18 @@ namespace Messangee.Sample.Consumer
         {
             var conf = new ConsumerConfig
             {
-                GroupId = "test-consumer-group",
-                BootstrapServers = "localhost:9092",
-                // Note: The AutoOffsetReset property determines the start offset in the event
-                // there are not yet any committed offsets for the consumer group for the
-                // topic/partitions of interest. By default, offsets are committed
-                // automatically, so in this example, consumption will only start from the
-                // earliest message in the topic 'my-topic' the first time you run the program.
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                BootstrapServers = "omnibus-01.srvs.cloudkafka.com:9094,omnibus-02.srvs.cloudkafka.com:9094,omnibus-03.srvs.cloudkafka.com:9094",
+                GroupId = "0sx3x3f8-consumer",
+                SecurityProtocol = SecurityProtocol.SaslSsl,
+                SaslMechanism = SaslMechanism.ScramSha256,
+                SaslUsername = "0sx3x3f8",
+                SaslPassword = "DB6Neo2DPii-qn2IfWhIrh7E-3qxO2-5",
+                AutoOffsetReset = AutoOffsetReset.Earliest,
             };
 
             using (var c = new ConsumerBuilder<Ignore, string>(conf).Build())
             {
-                c.Subscribe("my-topic");
+                c.Subscribe("0sx3x3f8-test");
 
                 CancellationTokenSource cts = new CancellationTokenSource();
                 Console.CancelKeyPress += (_, e) =>
