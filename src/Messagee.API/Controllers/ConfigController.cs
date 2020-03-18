@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Messangee.API.Models;
+using Messagee.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Messangee.API.Controllers
+namespace Messagee.API.Controllers
 {
     [ApiController]
     [Route("config")]
     public class ConfigController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ConfigModel model)
+        [Authorize(Roles = "config-create")]
+        public async Task<IActionResult> Post([FromBody] ConfigData model)
         {
             if (!ModelState.IsValid)
                 return new BadRequestObjectResult(new
@@ -18,11 +20,6 @@ namespace Messangee.API.Controllers
                     message = "Bad or missing data",
                     data = model
                 });
-            throw new NotImplementedException();
-        }
-        [HttpGet]
-        public Task<IActionResult> Get()
-        {
             throw new NotImplementedException();
         }
     }

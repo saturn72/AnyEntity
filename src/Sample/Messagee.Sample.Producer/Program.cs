@@ -2,7 +2,7 @@
 using System.Threading;
 using Confluent.Kafka;
 
-namespace Messangee.Sample.Producer
+namespace Messagee.Sample.Producer
 {
     public class Program
     {

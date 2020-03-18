@@ -1,11 +1,11 @@
 using Xunit;
-using Messangee.API.Controllers;
-using Messangee.API.Models;
 using System.Threading.Tasks;
 using Shouldly;
+using Messagee.API.Models;
+using Messagee.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Messangee.API.Tests.Controllers
+namespace Messagee.API.Tests.Controllers
 {
     public class ConfigControllerTests
     {
@@ -14,7 +14,7 @@ namespace Messangee.API.Tests.Controllers
         {
             var ctrl = new ConfigController();
             ctrl.ModelState.AddModelError("key", "error message");
-            var res = await ctrl.Post(new ConfigModel());
+            var res = await ctrl.Post(new ConfigData());
             res.ShouldBeOfType<BadRequestObjectResult>();
 
         }

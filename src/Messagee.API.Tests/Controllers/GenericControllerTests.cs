@@ -1,13 +1,14 @@
 using System;
 using Xunit;
-using Messangee.API.Controllers;
+using Messagee.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System.Reflection;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Messangee.API.Tests.Controllers
+namespace Messagee.API.Tests.Controllers
 {
     public class GenericControllerTests
     {
@@ -19,13 +20,21 @@ namespace Messangee.API.Tests.Controllers
             route.Template.ShouldBe(expTemplate);
         }
         [Theory]
-        [InlineData(typeof(ConfigController), "Get", "GET")]
-        [InlineData(typeof(ConfigController), "Post", "POST")]
+        [InlineData(typeof(ConfigController), nameof(ConfigController.Post), "POST")]
         public void ValidateVerbs(Type type, string methodName, string expHttpVerb)
         {
             var mi = type.GetMethod(methodName);
             var att = mi.GetCustomAttribute<HttpMethodAttribute>();
             att.HttpMethods.First().ShouldBe(expHttpVerb);
+        }
+
+        [Theory]
+        [InlineData(typeof(ConfigController), nameof(ConfigController.Post), "config-create")]
+        public void ValidateAuthorizationRoles(Type type, string methodName, string expRoles)
+        {
+            var mi = type.GetMethod(methodName);
+            var att = mi.GetCustomAttribute<AuthorizeAttribute>();
+            att.Roles.ShouldBe(expRoles);
         }
     }
 }

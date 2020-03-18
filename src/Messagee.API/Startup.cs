@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Messagee.API.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Messangee.API
+namespace Messagee.API
 {
     public class Startup
     {
@@ -26,6 +27,7 @@ namespace Messangee.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<WorkContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,9 +41,8 @@ namespace Messangee.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseMiddleware<WorkContextMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Messangee.API\Messangee.API.csproj" />
+    <ProjectReference Include="..\ObjectExtensions\ObjectExtensions.csproj" />
   </ItemGroup>
 
 </Project>
