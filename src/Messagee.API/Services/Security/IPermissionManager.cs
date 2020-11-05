@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using Messagee.API.Domain;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Messagee.API.Services.Security
 {
     public interface IPermissionManager
     {
-        Task<bool> UserPermittedForNamespace(string @namespace);
+        Task<bool> PermittedForTopics(IEnumerable<TopicPermissionRecord> records);
     }
 }

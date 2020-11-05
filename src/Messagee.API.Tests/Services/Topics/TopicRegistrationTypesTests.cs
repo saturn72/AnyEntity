@@ -10,9 +10,9 @@ namespace Messagee.API.Tests.Services.Topics
         [Fact]
         public void TopicRegistrationTypes_AllTests()
         {
-            TopicRegistrationTypes.All.Count().ShouldBe(2);
-            TopicRegistrationTypes.Publisher.ShouldBe("pub");
-            TopicRegistrationTypes.Subscriber.ShouldBe("sub");
+            TopicPermissionTypes.All.Count().ShouldBe(2);
+            TopicPermissionTypes.Publisher.ShouldBe("pub");
+            TopicPermissionTypes.Subscriber.ShouldBe("sub");
         }
     }
 }

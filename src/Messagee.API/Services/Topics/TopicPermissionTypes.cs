@@ -2,7 +2,7 @@
 
 namespace Messagee.API.Services.Topics
 {
-    public class TopicRegistrationTypes
+    public class TopicPermissionTypes
     {
         public static readonly IEnumerable<string> All = new[] { Publisher, Subscriber };
 

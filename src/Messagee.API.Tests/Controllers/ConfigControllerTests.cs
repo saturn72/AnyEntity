@@ -8,6 +8,7 @@ using Moq;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Messagee.API.Services.Topics;
+using Messagee.API.Domain;
 
 namespace Messagee.API.Tests.Controllers
 {
@@ -27,32 +28,29 @@ namespace Messagee.API.Tests.Controllers
         public async Task Post_InvalidBadTopicNames()
         {
             var tSrv = new Mock<ITopicService>();
-            tSrv.Setup(t => t.GetTopicIdsByTopicNames(It.IsAny<string>(), It.IsAny<IEnumerable<TopicRegistration>>()))
-                .ReturnsAsync(null as IEnumerable<TopicRegistration>);
+            tSrv.Setup(t => t.GetRegistrationToken(It.IsAny<IEnumerable<TopicPermissionRecord>>()))
+                .ReturnsAsync(null as string);
 
             var logger = new Mock<ILogger<RegistrationController>>();
             var ctrl = new RegistrationController(tSrv.Object, logger.Object);
-            var cm = new RegistrationModel { Registrations = new[] { new TopicRegistration() } };
+            var cm = new RegistrationModel { Topics = new[] { new TopicRegistrationRequest() } };
             var res = await ctrl.Post(cm);
             res.ShouldBeOfType<BadRequestResult>();
         }
         [Fact]
         public async Task Post_REturnsRegistrationData()
         {
-            var regRes = new[]
-            {
-                new TopicRegistration()
-            };
+            var token = "token";
             var tSrv = new Mock<ITopicService>();
-            tSrv.Setup(t => t.GetTopicIdsByTopicNames(It.IsAny<string>(), It.IsAny<IEnumerable<TopicRegistration>>()))
-                .ReturnsAsync(regRes);
+            tSrv.Setup(t => t.GetRegistrationToken(It.IsAny<IEnumerable<TopicPermissionRecord>>()))
+                .ReturnsAsync(token);
 
             var logger = new Mock<ILogger<RegistrationController>>();
             var ctrl = new RegistrationController(tSrv.Object, logger.Object);
-            var cm = new RegistrationModel { Registrations = new[] { new TopicRegistration() } };
+            var cm = new RegistrationModel { Topics = new[] { new TopicRegistrationRequest() } };
             var res = await ctrl.Post(cm);
             var ok = res.ShouldBeOfType<OkObjectResult>();
-            ok.Value.ShouldBe(regRes);
+            ok.Value.ShouldBe(token);
         }
     }
 }

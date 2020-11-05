@@ -1,6 +1,5 @@
-﻿using Messagee.API.Models;
+﻿using Messagee.API.Domain;
 using Messagee.API.Services.Security;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,33 +11,33 @@ namespace Messagee.API.Services.Topics
     {
         #region fields
         private readonly IPermissionManager _permissionManager;
-        private readonly IDistributedCache _cache;
+        private readonly ITokenGenerator _tokenGenerator;
         private readonly ILogger<TopicService> _logger;
         #endregion
 
         #region ctor
         public TopicService(
             IPermissionManager permissionManager,
-            IDistributedCache cache,
+            ITokenGenerator tokenGenerator,
             ILogger<TopicService> logger)
         {
             _permissionManager = permissionManager;
-            _cache = cache;
+            _tokenGenerator = tokenGenerator;
             _logger = logger;
         }
         #endregion
 
-        public async Task<IEnumerable<TopicRegistration>> GetTopicIdsByTopicNames(string @namespace, IEnumerable<TopicRegistration> registrations)
+        public async Task<object> GetRegistrationToken(IEnumerable<TopicPermissionRecord> records)
         {
-            _logger.LogInformation($"Start {nameof(GetTopicIdsByTopicNames)} with params: {nameof(@namespace)} = {@namespace}, {nameof(registrations)} = {registrations.ToJsonString()}");
-            if (!await _permissionManager.UserPermittedForNamespace(@namespace))
+            _logger.LogInformation($"Start {nameof(GetRegistrationToken)} with params: {nameof(records)} = {records.ToJsonString()}");
+            if (!await _permissionManager.PermittedForTopics(records))
             {
-                _logger.LogDebug($"User is not permitted for namespace");
-                return null;
+                _logger.LogDebug($"User is NOT permitted for topic: {records.ToJsonString()}");
+                return default;
             }
+            _logger.LogDebug($"User is permitted for topic: {records.ToJsonString()}");
 
-            var all = await _cache.GetAsync
-            throw new System.NotImplementedException();
+            return await _tokenGenerator.Next();
         }
     }
 }

@@ -22,13 +22,16 @@ namespace Messagee.API.Middlewares
         public async Task InvokeAsync(HttpContext httpContext, WorkContext workContext)
         {
             _logger.LogInformation(LoggingEvents.WorkContext, $"Start {nameof(WorkContextMiddleware)}.{nameof(InvokeAsync)} invokation");
-            var clientId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (!clientId.HasValue())
+            var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var clientId = httpContext.User.FindFirst("client_id")?.Value;
+
+            if (!userId.HasValue() && !clientId.HasValue())
             {
                 httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 _logger.LogDebug($"Missing userId - user is unauthorized!");
                 return;
             }
+            workContext.CurrentUserId = userId;
             workContext.CurrentClientId = clientId;
             workContext.CurrentRoles = httpContext.User.FindAll(ClaimTypes.Role)?.Select(c => c.Value);
             workContext.Namespaces = httpContext.User.FindAll(MessageeClaimTypes.Namespace)?.Select(c => c.Value);

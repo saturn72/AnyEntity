@@ -10,11 +10,21 @@ namespace Messagee.API.Validators
     {
         public RegistrationModelValidator()
         {
-            RuleFor(c => c.Registrations).Must(
+            RuleFor(c => c.Topics).Must(
                 x => x != null &&
-                x.All(d => d.TopicName.HasValue() && TopicRegistrationTypes.All.Contains(d.RegistrationType)));
+                x.All(VerifyTopicRegistrationRequest));
 
-            RuleFor(c => c.Namespace).Must(d => d.HasValue());
+        }
+
+        protected bool VerifyTopicRegistrationRequest(TopicRegistrationRequest trr)
+        {
+            return 
+                trr.Account.HasValue() &&
+                trr.Namespace.HasValue() &&
+                trr.Topic.HasValue() &&
+                trr.ReferenceId.HasValue() &&
+                trr.PermissionType.HasValue() &&
+                TopicPermissionTypes.All.Contains(trr.PermissionType);
         }
     }
 }
