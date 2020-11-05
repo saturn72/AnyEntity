@@ -13,14 +13,14 @@ namespace Messagee.API.Tests.Controllers
     public class GenericControllerTests
     {
         [Theory]
-        [InlineData(typeof(ConfigController), "config")]
+        [InlineData(typeof(RegistrationController), "register")]
         public void ValidateRoute(Type type, string expTemplate)
         {
             var route = type.GetCustomAttribute<RouteAttribute>();
             route.Template.ShouldBe(expTemplate);
         }
         [Theory]
-        [InlineData(typeof(ConfigController), nameof(ConfigController.Post), "POST")]
+        [InlineData(typeof(RegistrationController), nameof(RegistrationController.Post), "POST")]
         public void ValidateVerbs(Type type, string methodName, string expHttpVerb)
         {
             var mi = type.GetMethod(methodName);
@@ -29,7 +29,7 @@ namespace Messagee.API.Tests.Controllers
         }
 
         [Theory]
-        [InlineData(typeof(ConfigController), nameof(ConfigController.Post), "config-create")]
+        [InlineData(typeof(RegistrationController), nameof(RegistrationController.Post), "register-create")]
         public void ValidateAuthorizationRoles(Type type, string methodName, string expRoles)
         {
             var mi = type.GetMethod(methodName);

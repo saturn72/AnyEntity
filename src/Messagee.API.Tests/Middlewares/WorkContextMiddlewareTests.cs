@@ -1,9 +1,11 @@
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Messagee.API.Middlewares;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Shouldly;
 using Xunit;
 
 namespace Messagee.API.Tests.Middlewares
@@ -24,6 +26,37 @@ namespace Messagee.API.Tests.Middlewares
             hc.Setup(h => h.Response).Returns(hr.Object);
             await wcm.InvokeAsync(hc.Object, null);
             hr.VerifySet(r => r.StatusCode = StatusCodes.Status401Unauthorized, Times.Once);
+        }
+        [Fact]
+        public async Task ClientIdIsNull_BuildsWorkContext()
+        {
+            string un = "user-name";
+            var expRoles = new[] { "role1", "role2", "role3" };
+            var logger = new Mock<ILogger<WorkContextMiddleware>>();
+            var i = 0;
+            RequestDelegate n = c =>
+            {
+                i++;
+                return Task.CompletedTask;
+            };
+            var wcm = new WorkContextMiddleware(n, logger.Object);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, un),
+                new Claim(ClaimTypes.Role, expRoles[0]),
+                new Claim(ClaimTypes.Role, expRoles[1]),
+                new Claim(ClaimTypes.Role, expRoles[2]),
+            };
+            var hc = new Mock<HttpContext>();
+            hc.Setup(h => h.User).Returns(new ClaimsPrincipal(new ClaimsIdentity(claims)));
+            var wc = new WorkContext();
+            await wcm.InvokeAsync(hc.Object, wc);
+
+            wc.CurrentClientId.ShouldBe(un);
+            wc.CurrentRoles.Count().ShouldBe(expRoles.Length);
+            wc.CurrentRoles.ShouldAllBe(e => expRoles.Contains(e));
+            i.ShouldBe(1);
         }
     }
 }

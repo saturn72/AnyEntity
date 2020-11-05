@@ -9,7 +9,4 @@
     <PackageReference Include="Confluent.Kafka" Version="1.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Messangee.Sample.Producer\Messangee.Sample.Producer.csproj" />
-  </ItemGroup>
 </Project>

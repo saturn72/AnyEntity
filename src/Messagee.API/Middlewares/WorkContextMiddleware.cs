@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Messagee.API.Security;
 using Messagee.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -19,7 +21,7 @@ namespace Messagee.API.Middlewares
 
         public async Task InvokeAsync(HttpContext httpContext, WorkContext workContext)
         {
-            _logger.LogDebug(LoggingEvents.WorkContext, "Start WorkContextMiddleware invokation");
+            _logger.LogInformation(LoggingEvents.WorkContext, $"Start {nameof(WorkContextMiddleware)}.{nameof(InvokeAsync)} invokation");
             var clientId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!clientId.HasValue())
             {
@@ -28,6 +30,8 @@ namespace Messagee.API.Middlewares
                 return;
             }
             workContext.CurrentClientId = clientId;
+            workContext.CurrentRoles = httpContext.User.FindAll(ClaimTypes.Role)?.Select(c => c.Value);
+            workContext.Namespaces = httpContext.User.FindAll(MessageeClaimTypes.Namespace)?.Select(c => c.Value);
             _logger.LogDebug(LoggingEvents.WorkContext, "Finish parsing current WorkContext");
             await _next(httpContext);
         }
