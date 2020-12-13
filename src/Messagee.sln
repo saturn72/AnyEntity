@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messagee.Sample.Consumer", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messagee.Sample.Producer", "Sample\Messagee.Sample.Producer\Messagee.Sample.Producer.csproj", "{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,18 @@ Global
 		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|x64.Build.0 = Release|Any CPU
 		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|x86.ActiveCfg = Release|Any CPU
 		{7A34F578-2FBD-4079-8BC2-1B5B38A747D6}.Release|x86.Build.0 = Release|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Debug|x64.Build.0 = Debug|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Release|x64.ActiveCfg = Release|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Release|x64.Build.0 = Release|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6AAE643-4F16-4C29-AC0F-9E30E22EB47F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
